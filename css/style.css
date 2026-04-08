@@ -413,6 +413,33 @@
         .theme-btn { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--antiquewhite); transition: var(--transition-fast); } /* Tombol pengganti tema */
         .theme-btn:hover { background: var(--marigold); color: #fff; transform: rotate(15deg); } /* Efek putar saat hover tombol tema */
 
+        
+        /* HAMBURGER STYLE */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+            transition: 0.3s;
+
+        /* ANIMASI X */
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
         /* ========================================
            VII. MASTER GRID & 3D SIDEBAR
            ======================================== */
