@@ -604,6 +604,11 @@ function renderFullUI() {
     }
 }
 
+function toggleMenu(el) {
+    el.classList.toggle("active");
+    document.getElementById("navMenu").classList.toggle("active");
+}
+
 // 4. CALLER
 window.addEventListener("DOMContentLoaded", bootCinemaOS);
 console.log("BOOTING...");
