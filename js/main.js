@@ -604,9 +604,11 @@ function renderFullUI() {
     }
 }
 
-function toggleMenu(el) {
-    el.classList.toggle("active");
-    document.getElementById("navMenu").classList.toggle("active");
+function toggleMenu(element) {
+    element.classList.toggle("active");
+
+    const menu = document.getElementById("navMenu");
+    menu.classList.toggle("active");
 }
 
 // 4. CALLER
