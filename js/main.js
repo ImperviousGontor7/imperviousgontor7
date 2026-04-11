@@ -1,4 +1,4 @@
-/* ============================================================
+/* ============================================================/* ============================================================
    I. KONSTANTA & DATA (DATES)
    ============================================================ */
    const DATES = {
@@ -20,9 +20,6 @@
     init3DTilt();
     initObserver();
     initContextMenu();
-
-    renderFullUI(); // 🔥 TAMBAH DI SINI
-    updateXP();        // 🔥 XP jalan
 
     setTimeout(() => {
             smoothScrollTo(window.innerHeight * 0.75, 1000);
@@ -82,18 +79,40 @@ function switchView(id, btn) {
     }
 }
 
-function smoothScrollTo(target, duration) {
-    const start = window.pageYOffset, dist = target - start; 
-    let startT = null;
-    const step = (currT) => {
-        if(!startT) startT = currT;
-        const p = Math.min((currT - startT) / duration, 1);
-        const ease = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
-        window.scrollTo(0, start + dist * ease);
-        if(p < 1) requestAnimationFrame(step);
-    }; 
-    requestAnimationFrame(step);
-}
+// ===== MOBILE MENU =====
+document.addEventListener("DOMContentLoaded", () => {
+
+    const overlay = document.getElementById("overlay");
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileSidebar = document.getElementById("mobileSidebar");
+
+    // TOGGLE MENU
+    function toggleMenu() {
+        menuBtn.classList.toggle("active");
+        mobileSidebar.classList.toggle("active");
+        overlay.classList.toggle("active");
+    }
+
+    // Biar bisa dipanggil dari HTML (onclick)
+    window.toggleMenu = toggleMenu;
+
+    // AUTO CLOSE saat klik menu
+    document.querySelectorAll('.mobile-sidebar a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileSidebar.classList.remove("active");
+            menuBtn.classList.remove("active");
+            overlay.classList.remove("active");
+        });
+    });
+
+    // CLOSE saat klik overlay
+    overlay.addEventListener("click", () => {
+        mobileSidebar.classList.remove("active");
+        menuBtn.classList.remove("active");
+        overlay.classList.remove("active");
+    });
+
+});
 
 /* ============================================================
    V. INTERACTIVE VISUALS (Canvas & Particles)
@@ -328,213 +347,74 @@ document.addEventListener('keydown', function (e) {
 }
 
 /* ============================================================
-   IX. XP SYSTEM
+   VI. SWIPE MOBILE
    ============================================================ */
 
-   function updateXP() {
-    const percent = (player.XP / player.maxXP) * 100;
+let startX = 0;
 
-    const fill = document.getElementById('eXP-bar');
-    const text = document.getElementById('eXP-val');
+document.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+});
 
-    if (fill && text) {
-        fill.style.width = percent + '%';
-        text.innerText = `${player.XP} / ${player.maxXP} (${percent.toFixed(1)}%)`;
+document.addEventListener("touchend", e => {
+    let endX = e.changedTouches[0].clientX;
+
+    if (startX > endX + 50) {
+        mobileSidebar.classList.add("active");
+        menuBtn.classList.add("active");
     }
-}
+
+    if (startX < endX - 50) {
+        mobileSidebar.classList.remove("active");
+        menuBtn.classList.remove("active");
+    }
+});
 
 /* ============================================================
    player SYSTEM (CUSTOM)
    ============================================================ */
 
 const player = {
-    XP: 0,
-    maxXP: 150,
     HP: 100,
     maxHP: 100,
     MP: 100,
     maxMP: 100,
-    level: 1,
-    maxLevel: 6101,
-
-    job: "Impervious",
-
-    progress: 40,
 
     stats: {
     // ⚔️ BASIC STATS
-    STRENGTH: 10,        // serangan fisik
-    VITALITY: 10,        // HP / ketahanan
-    AGILITY: 10,         // kecepatan / dodge
-    INTELLIGENCE: 10,    // magic power
-    PERCEPTION: 10,      // akurasi / detect
-
-    // 🔥 ADVANCED STATS (anime style)
-    DEXTERITY: 10,       // critical / finesse
-    LUCK: 10,            // RNG / drop / crit rate
-    ENDURANCE: 10,       // stamina / tahan lama
-    CHARISMA: 10,        // influence / leadership
-    WISDOM: 10,          // control magic / decision
-
-    // 🛡 DEFENSE STATS
-    EVASION: 5,          // dodge chance
-
-    // 🔮 SPECIAL (anime vibes)
-    AURA: 10,            // tekanan aura (kayak MC OP 😎)
-    FATE: 1,             // keberuntungan takdir
-    INSTINCT: 10         // refleks alami
+    STRENGTH: 1926,        // serangan fisik
+    VITALITY: 2026,        // HP / ketahanan
+    AGILITY: 5100,         // kecepatan / dodge
+    PERCEPTION: 2027,      // akurasi / detect
+    ENDURANCE: 6101,       // stamina / tahan lama
+    CHARISMA: 999,        // influence / leadership
+    AURA: 999,            // tekanan aura (kayak MC OP 😎)
+    FATE: 999,             // keberuntungan takdir
+    INSTINCT: 999         // refleks alami
 },
 
     skills: [
-        { name: "Al-Qur'an", level: 1 },
-        { name: "Muthola'ah", level: 1 },
-        { name: "Tamrin Lugoh", level: 1 },
-        { name: "Nahwu", level: 1 },
-        { name: "Shorof", level: 1 },
-        { name: "Mahfudzot", level: 1 },
-        { name: "Tarbiyah", level: 1 },
+        { name: "Arabic", level: 1 },
+        { name: "English", level: 1 },
+        { name: "Indonesian", level: 1 },
     ],
 
     equipment: [
-        // 🔴 SS (Legendary / God Tier)
-    
-        // 🟡 S (Epic)
-    
-        // 🟣 A (Rare)
-    
-        // 🔵 B (Uncommon)
-    
-        // ⚪ C (Common)
-        { name: "Dasi", rarity: "C" },
-        { name: "Co-Card PBS", rarity: "C" },
+    // 🔴 SS (Legendary / God Tier)
+        { name: "Batch Shirt", rarity: "SS" },
+        { name: "Batch Blazer", rarity: "SS" },
+        { name: "OPPM Full Dress Uniform", rarity: "SS" },
+        { name: "Coordinator Full Dress Uniform", rarity: "SS" },
 
-        // ⚫ D (Low)
-        { name: "Jas Berkancing Lepas", rarity: "D" },
-        { name: "Kemeja Putih Kuningan", rarity: "D" },
-    
-        // ⚫ E (Very Low)
+    // 🟡 S (Epic)
+        { name: "Batch Al-Qur'an", rarity: "S" },
+        { name: "Batch Sandal Bag", rarity: "S" },
+        { name: "Batch Cap (Peci)", rarity: "S" },
 
+    // 🟣 A (Rare)
+        { name: "Batch Plate", rarity: "A" },
+        { name: "Batch Mattress", rarity: "A" },
     ]
-
-}
-
-/* ============================================================
-   X. PROGRESS SYSTEM
-   ============================================================ */
-
-   function addXP(amount){
-    if (!player.XP) player.XP = 0;
-
-    player.XP += amount;
-
-    console.log("XP:", player.XP, "/", player.maxXP);
-
-    // 🔥 multi level support
-    while (player.XP >= player.maxXP) {
-        player.XP -= player.maxXP;
-        levelUp(); // efek langsung dari sini
-    }
-
-    updateXP();
-}
-
-function levelUp() {
-    player.level = (player.level || 1) + 1;
-
-    if (player.level % 20 === 0) {
-        player.skills.forEach(skill => {
-            skill.level += 1;
-        });
-    }
-
-    // 🔥 scaling
-    player.maxXP = Math.floor(player.maxXP * 1.01);
-    player.maxHP = Math.floor(player.maxHP * 1.015);
-    player.maxMP = Math.floor(player.maxMP * 1.025);
-
-    player.stats.STRENGTH += Math.floor(player.level * 0.5);
-    player.stats.VITALITY += Math.floor(player.level * 0.4);
-    player.stats.AGILITY += Math.floor(player.level * 0.2);
-    player.stats.INTELLIGENCE += Math.floor(player.level * 0.25);
-    player.stats.PERCEPTION += Math.floor(player.level * 0.15);
-    player.stats.DEXTERITY += Math.floor(player.level * 0.5);
-    player.stats.LUCK += Math.floor(player.level * 0.4);
-    player.stats.ENDURANCE += Math.floor(player.level * 0.2);
-    player.stats.CHARISMA += Math.floor(player.level * 0.25);
-    player.stats.WISDOM += Math.floor(player.level * 0.15);
-    player.stats.EVASION += Math.floor(player.level * 0.15);
-    player.stats.AURA += Math.floor(player.level * 0.15);
-    player.stats.FATE += Math.floor(player.level * 0.15);
-    player.stats.INSTINCT += Math.floor(player.level * 0.15);
-    
-
-    if (player.job === "Warrior") {
-        player.stats.STRENGTH += +3;
-    }
-
-    // 🔥 RANDOM STAT (INI YANG LU MAU)
-    const stats = Object.keys(player.stats);
-    const randomStat = stats[Math.floor(Math.random() * stats.length)];
-
-    player.stats[randomStat] += 3;
-
-    console.log("Naik stat:", randomStat);
-
-    // refill
-    player.HP = player.maxHP;
-    player.MP = player.maxMP;
-
-    console.log(`LEVEL UP 🔥 Lv: ${player.level}`);
-
-    // 🔥 efek CSS (glow / animasi body)
-    document.body.classList.add("level-up");
-    setTimeout(() => {
-        document.body.classList.remove("level-up");
-    }, 600);
-
-    if (player.level % 100 === 0) {
-        changeJob();
-    }
-
-    // 🔥 flash putih (overlay)
-    const flash = document.getElementById("levelup-flash");
-    if (flash) {
-        flash.style.opacity = "1";
-        setTimeout(() => {
-            flash.style.opacity = "0";
-        }, 150);
-
-        if (player.level % 100 === 0) {
-            changeJob();
-        }
-    }
-
-    // 🔥 update semua UI
-    updateXP();
-    renderFullUI();
-}
-
-let tick = 0;
-
-setInterval(() => {
-    tick++;
-
-    // XP tiap 3 detik
-    if (tick % 3 === 0) {
-        addXP(50);
-    }
-
-}, 1100);
-
-function flashLevelUp() {
-    const flash = document.getElementById("levelup-flash");
-    if (!flash) return;
-
-    flash.style.opacity = "1";
-
-    setTimeout(() => {
-        flash.style.opacity = "0";
-    }, 150);
 }
 
 function renderFullUI() {
@@ -604,13 +484,6 @@ function renderFullUI() {
     }
 }
 
-function toggleMenu(element) {
-    element.classList.toggle("active");
-
-    const menu = document.getElementById("navMenu");
-    menu.classList.toggle("active");
-}
-
 // 4. CALLER
 window.addEventListener("DOMContentLoaded", bootCinemaOS);
 console.log("BOOTING...");
@@ -644,79 +517,3 @@ function renderImages() {
         grid.appendChild(img);
     };
 }
-    
-    function changeJob() {
-        const jobs = [
-            "Impervious",
-            "Peasant",
-            "Farmer",
-            "Servant",
-            "Village Guard",
-            "Squire",
-            "Footman",
-            "Scout",
-            "Archer",
-            "Infantry",
-            "Royal Guard",
-            "Knight",
-            "Senior Knight",
-            "Elite Knight",
-            "Paladin",
-            "Royal Paladin",
-            "Champion",
-            "Warlord",
-            "Battle Master",
-            "Commander",
-            "High Commander",
-            "General",
-            "High General",
-            "War Strategist",
-            "Royal Strategist",
-            "Tactician",
-            "Master Tactician",
-            "Castle Keeper",
-            "Fortress Guardian",
-            "Royal Sentinel",
-            "Court Officer",
-            "Royal Advisor",
-            "High Advisor",
-            "Minister",
-            "High Minister",
-            "Chancellor",
-            "Grand Chancellor",
-            "Archon",
-            "Noble",
-            "High Noble",
-            "Baron",
-            "Viscount",
-            "Count",
-            "Marquis",
-            "Duke",
-            "Grand Duke",
-            "Prince",
-            "Crown Prince",
-            "King",
-            "High King",
-            "Emperor",
-            "High Emperor",
-            "Supreme Emperor",
-            "Divine Ruler",
-            "Celestial King",
-            "Mythic Sovereign",
-            "Immortal Monarch",
-            "God-King",
-            "Eternal God-King"
-        ];
-    
-        const index = Math.floor(player.level / 100);
-    
-        if (index < jobs.length) {
-            player.job = jobs[index];
-        } else {
-            player.job = "Transcendent"; // kalau udah lewat list
-        }
-    
-        console.log("JOB CHANGE 🔥:", player.job);
-    
-        renderFullUI();
-    }
