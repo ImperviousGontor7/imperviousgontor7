@@ -64,8 +64,29 @@
             <div class="theme-btn hover-target" onclick="toggleTheme()">
                 <img src="assets/img/10. Angkatan/Logo Hologram Coklat Khat Marhalah.png" alt="Logo Hologram Khat Marhalah" class="logo-hologram-1 hover-target" onerror="this.src='assets/fallback.png'" loading="lazy">
             </div>
+            <div class="search">
+                <svg viewBox="0 0 24 24" width="40" height="40">
+                    <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                    <line x1="15.5" y1="15.5" x2="20" y2="20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="menu-btn" onclick="toggleMenu()" id="menuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
+        <div id="overlay" class="overlay"></div>
+        <div class="mobile-sidebar" id="mobileSidebar">
+            <a href="#" onclick="switchView('home', this)">Home</a>
+            <a href="#" onclick="switchView('profil', this)">Profil</a>
+            <a href="#" onclick="switchView('history', this)">History</a>
+            <a href="#" onclick="switchView('logo', this)">Logo</a>
+            <a href="#" onclick="switchView('agenda', this)">Agenda</a>
+            <a href="#" onclick="switchView('memories', this)">Memories</a>
+            <a href="#" onclick="switchView('forum', this)">Forum</a>
+        </div>
     <div class="master-wrapper">
         <aside>
             <div class="sidebar-card tilt-card" id="engine-sidebar-main">
@@ -134,40 +155,34 @@
                             <img src="assets/img/10. Angkatan/maskot plat mobil.png" alt="Main Logo" class="maskot-img" onerror="this.src='assets/fallback.png'" loading="lazy">
                         </div>
                         <div style="padding: 20px;">
-                            <div class="panel">
+<div class="panel">
                                 <h3 class="panel-title">~ STATUS ~</h3>
                                 <div class="panel-section">
                                     <div class="row">
-                                        <span><h5>NAME</h5></span>
-                                        <span><h5>Zu'aym</h5></span>
+                                        <h5>NAME</h5>
+                                        <span>Zu'aym</span>
                                     </div>
                                     <div class="row">
-                                        <h5>LEVEL</h5> <span id="level-val"></span>
+                                        <h5>LEVEL</h5>
+                                        <span>6101</span>
                                     </div>
                                     <div class="row">
-                                        <h5>CLASS</h5> <span id="job-val"></span>
+                                        <h5>CLASS</h5>
+                                        <span>IMPERVIOUS</span>
                                     </div>
                                     <div class="row">
-                                        <h5>SUBCLASS</h5> <span id="job-val"><h5>Absolute</h5></span>
+                                        <h5>SUBCLASS</h5>
+                                        <span>Absolute</span>
                                     </div>
                                 </div>
-                                <div id="levelup-flash"></div>
-                                    <div class="panel-section">
-                                    <div class="row">HP: <span id="HP-val"></span></div>
-                                    <div class="bar"><div id="HP-bar"></div></div>
-                                    <div class="row">MP: <span id="MP-val"></span></div>
-                                    <div class="bar"><div id="MP-bar"></div></div>
-                                    <div class="row">XP: <span id="eXP-val"></span></div>
-                                    <div class="bar"><div id="eXP-bar"></div></div>
-                                </div>
-                                <div class="panel-section" id="attr-box">
-                                    <div class="panel-section">
-                                        <h3>SKILLS</h3>
-                                        <div id="skill-box"></div>
+                                <div class="panel-section">
+                                    <div class="row">HP <span id="HP-val">100 / 100</span></div>
+                                    <div class="bar">
+                                        <div id="HP-bar"></div>
                                     </div>
-                                    <div class="panel-section">
-                                        <h3>EQUIPMENT</h3>
-                                        <div id="equip-box"></div>
+                                    <div class="row">MP <span id="MP-val">80 / 100</span></div>
+                                    <div class="bar">
+                                        <div id="MP-bar"></div>
                                     </div>
                                 </div>
                             </div>
