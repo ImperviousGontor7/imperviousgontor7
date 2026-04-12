@@ -405,6 +405,23 @@
         .mobile-sidebar a {
             display: none;
         }
+
+        .kuantitas, .kualitas{
+            background: var(--border-glass);
+             padding: 20px;
+             border-radius: 20px;
+        }
+
+        .kuantitas-h4, .kualitas-h4 {
+            font-family: var(--font-display);
+             color: var(--marigold);
+             font-size: 1.5rem;
+        }
+
+        .kuantitas-p, .kualitas-p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
     
         /* ========================================
            VII. MASTER GRID & 3D SIDEBAR
@@ -1078,7 +1095,7 @@
         }
         
         .y-box b {
-            font-size: 2rem; /* dari 4rem → diperkecil */
+            font-size: 1.75rem; /* dari 4rem → diperkecil */
         }
         
         .y-box small {
@@ -1197,8 +1214,8 @@
         .c-box {
             padding: 15px;
             margin: 20px auto;
-            width: 80%;
-            max-width: 360px; /* WAJIB kalau mau ketengah */
+            width: 100%;
+            max-width: 450px; /* WAJIB kalau mau ketengah */
             box-sizing: border-box;
           }
         
@@ -1273,7 +1290,44 @@
         text-align: right;
         word-break: break-word;
         }
-    
+
+        /* Gabungkan style yang sama */
+.kuantitas,
+.kualitas {
+    background: var(--border-glass);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+/* Heading */
+.kuantitas-h4,
+.kualitas-h4 {
+    font-family: var(--font-display);
+    color: var(--marigold);
+    font-size: 1.5rem;
+}
+
+/* Paragraph */
+.kuantitas-p,
+.kualitas-p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+    .kuantitas, .kualitas {
+        padding: 12px;
+        border-radius: 15px;
+    }
+
+    .kuantitas-h4, .kualitas-h4 {
+        font-size: 1.2rem;
+    }
+
+    .kuantitas-p, .kualitas-p {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+}
     
         /* TAMPILKAN HAMBURGER */
         .menu-btn {
