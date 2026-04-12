@@ -39,10 +39,12 @@
             scrollTarget = window.innerHeight * 0.75;
           }
       
-          window.scrollTo({
-            top: scrollTarget,
-            behavior: "smooth"
-          });
+          if (window.innerWidth > 768 && window.scrollY < 50) {
+            window.scrollTo({
+                top: scrollTarget,
+                behavior: "smooth"
+            });
+        }
       
         }, 2000);
       
@@ -84,21 +86,20 @@ function renderDOM(id, val) {
 /* ============================================================
    IV. ROUTING & NAVIGATION (View Switching)
    ============================================================ */
-function switchView(id, btn) {
-    document.querySelectorAll('.nav-menu a').forEach(a => a.classList.remove('active'));
-    btn.classList.add('active');
-    const current = document.querySelector('.view-pane.active');
+   function switchView(id, btn) {
     const target = document.getElementById('view-' + id);
-    
-    if(current && target && current !== target) {
-        current.style.opacity = '0'; 
-        current.style.transform = 'translateY(-20px)';
-        setTimeout(() => {
-            current.classList.remove('active'); 
-            current.style = '';
-            target.classList.add('active');
-            smoothScrollTo(document.getElementById('glass-nav').offsetTop - 20, 800);
-        }, 400);
+    const current = document.querySelector('.view-pane.active');
+
+    if (!target) return; // 🔥 penting
+
+    document.querySelectorAll('.nav-menu a')
+        .forEach(a => a.classList.remove('active'));
+
+    btn.classList.add('active');
+
+    if (current && current !== target) {
+        current.classList.remove('active');
+        target.classList.add('active');
     }
 }
 
@@ -314,12 +315,19 @@ function initObserver() {
     });
 
     // ❗ hapus delay berlapis
-    if (window.innerWidth > 768) {
-        window.scrollTo({
-            top: window.innerHeight * 0.75,
-            behavior: "smooth"
-        });
-    }
+    function smoothScrollTo(target, duration) {
+    window.scrollTo({
+        top: target,
+        behavior: "smooth"
+    });
+}
+
+if (window.innerWidth > 768) {
+    window.scrollTo({
+        top: window.innerHeight * 0.75,
+        behavior: "smooth"
+    });
+}
 }
 
 /* ============================================================
@@ -388,41 +396,6 @@ function enableChatListener() {
         container.appendChild(frag);
 
         // ✅ auto scroll halus
-        requestAnimationFrame(() => {
-            container.scrollTop = container.scrollHeight;
-        });
-    });
-}
-
-// Mendengarkan pesan dari database
-if(database) {
-    database.ref('messages').on('child_added', (snapshot) => {
-        const data = snapshot.val();
-        const container = document.getElementById('chat-container');
-        if (!container) return;
-
-        const msgDiv = document.createElement('div');
-        msgDiv.style.cssText = `
-            align-self: flex-start;
-            background: var(--border-glass);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 15px;
-            max-width: 80%;
-            margin-bottom: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
-            animation: slideIn 0.3s ease;
-        `;
-        
-        msgDiv.innerHTML = `
-            <small style="color:var(--antiquewhite); display:block; font-size:0.7rem; margin-bottom:3px;">${data.sender}</small>
-            <span>${data.text}</span>
-        `;
-        
-        const frag = document.createDocumentFragment();
-        frag.appendChild(msgDiv);
-        container.appendChild(frag);
-
         requestAnimationFrame(() => {
             container.scrollTop = container.scrollHeight;
         });
