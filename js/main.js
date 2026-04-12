@@ -17,7 +17,6 @@
     initTimers();
     initScrollEffects();
     initInteractiveCanvas();
-    init3DTilt();
     initObserver();
     initContextMenu();
 
@@ -138,82 +137,113 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-/* ============================================================
-   V. INTERACTIVE VISUALS (Canvas & Particles)
-   ============================================================ */
 function initInteractiveCanvas() {
     const canvas = document.getElementById("particle-canvas");
-const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
 
-let particles = [];
-let w, h;
+    let particles = [];
+    let w, h;
+    let lastTime = 0;
+    let animId; // ✅ penting
 
-// resize canvas
-function resizeCanvas() {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-}
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
+    // =========================
+    // RESIZE CANVAS
+    // =========================
+    function resizeCanvas() {
+        const scale = 0.5;
 
-// class partikel
-class Particle {
-    constructor() {
-        this.reset();
+        w = canvas.width = window.innerWidth * scale;
+        h = canvas.height = window.innerHeight * scale;
+
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // reset
+        ctx.scale(scale, scale);
     }
 
-    reset() {
-        this.x = Math.random() * w;
-        this.y = Math.random() * h;
-        this.size = Math.random() * 2 + 0.5;
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
 
-        // arah gerak (naik pelan + random)
-        this.speedX = Math.random() * 0.6 - 0.3;
-        this.speedY = Math.random() * -0.8 - 0.2;
-
-        this.opacity = Math.random() * 0.5 + 0.1;
-    }
-
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        // kalau keluar layar → muncul lagi bawah
-        if (this.y < 0) {
-            this.y = h;
-            this.x = Math.random() * w;
+    // =========================
+    // PARTICLE CLASS
+    // =========================
+    class Particle {
+        constructor() {
+            this.reset();
         }
 
-        if (this.x > w) this.x = 0;
-        if (this.x < 0) this.x = w;
+        reset() {
+            this.x = Math.random() * w;
+            this.y = Math.random() * h;
+            this.size = Math.random() * 2 + 0.5;
+
+            this.speedX = Math.random() * 0.6 - 0.3;
+            this.speedY = Math.random() * -0.8 - 0.2;
+
+            this.opacity = Math.random() * 0.5 + 0.1;
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            if (this.y < 0) {
+                this.y = h;
+                this.x = Math.random() * w;
+            }
+
+            if (this.x > w) this.x = 0;
+            if (this.x < 0) this.x = w;
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(210,180,140,${this.opacity})`;
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
     }
 
-    draw() {
-        ctx.beginPath();
-        ctx.fillStyle = `rgba(210,180,140,${this.opacity})`; // warna coklat emas
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+    // =========================
+    // INIT PARTICLES
+    // =========================
+    let particleCount = window.innerWidth > 1200 ? 40 : 25;
+
+    for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
     }
-}
 
-// buat banyak partikel
-for (let i = 0; i < 120; i++) {
-    particles.push(new Particle());
-}
+    // =========================
+    // ANIMATION LOOP (30 FPS)
+    // =========================
+    function animateParticles(time) {
+        if (time - lastTime < 33) {
+            animId = requestAnimationFrame(animateParticles);
+            return;
+        }
 
-// animasi loop
-function animateParticles() {
-    ctx.clearRect(0, 0, w, h);
+        lastTime = time;
 
-    particles.forEach(p => {
-        p.update();
-        p.draw();
+        ctx.clearRect(0, 0, w, h);
+
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+
+        animId = requestAnimationFrame(animateParticles);
+    }
+
+    animId = requestAnimationFrame(animateParticles);
+
+    // =========================
+    // PAUSE SAAT TAB TIDAK AKTIF
+    // =========================
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+            cancelAnimationFrame(animId);
+        } else {
+            animId = requestAnimationFrame(animateParticles);
+        }
     });
-
-    requestAnimationFrame(animateParticles);
-}
-
-animateParticles();
 }
 
 /* ============================================================
@@ -224,23 +254,12 @@ function initCursor() {
     if(!dot || !ring) return;
     let mx = window.innerWidth/2, my = window.innerHeight/2, rx = mx, ry = my;
     document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.left = mx+'px'; dot.style.top = my+'px'; });
-    const renderRing = () => { rx += (mx - rx)*0.2; ry += (my - ry)*0.2; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(renderRing); };
+    if (window.innerWidth < 768) return; const renderRing = () => { rx += (mx - rx)*0.2; ry += (my - ry)*0.2; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(renderRing); };
     renderRing();
     document.querySelectorAll('a, button, .hover-target').forEach(el => {
         el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
         el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
     });
-}
-
-function init3DTilt() {
-    const card = document.getElementById('engine-sidebar');
-    if(!card) return;
-    card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect(), x = e.clientX - rect.left, y = e.clientY - rect.top;
-        const rx = ((y - rect.height/2) / (rect.height/2)) * -8, ry = ((x - rect.width/2) / (rect.width/2)) * 8;
-        card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02, 1.02, 1.02)`;
-    });
-    card.addEventListener('mouseleave', () => card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)`);
 }
 
 function initContextMenu() {
@@ -256,28 +275,51 @@ function initContextMenu() {
 function initScrollEffects() {
     const bar = document.getElementById('scroll-progress');
     const btn = document.getElementById('back-top');
-    let ticking = false;
+
+    let lastScroll = 0;
 
     window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                const ws = document.documentElement.scrollTop || document.body.scrollTop;
-                const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                
-                if(bar) bar.style.width = (ws / h) * 100 + "%";
-                if(btn) ws > 500 ? btn.classList.add('visible') : btn.classList.remove('visible');
-                
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
+        const now = Date.now();
+
+        // ❗ batasi update tiap 50ms
+        if (now - lastScroll < 50) return;
+        lastScroll = now;
+
+        const ws = window.scrollY;
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+
+        if(bar) bar.style.width = (ws / h) * 100 + "%";
+        if(btn) ws > 500 ? btn.classList.add('visible') : btn.classList.remove('visible');
+
+    }, { passive: true }); // 🔥 lebih ringan
 }
+
 function initObserver() {
-    const obs = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal-scroll').forEach(el => obs.observe(el));
+    const elements = document.querySelectorAll('.reveal-scroll');
+
+    // ❗ batasi maksimal 20 elemen
+    elements.forEach((el, i) => {
+        if (i > 20) return;
+
+        const obs = new IntersectionObserver((entries, observer) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('is-visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        obs.observe(el);
+    });
+
+    // ❗ hapus delay berlapis
+    if (window.innerWidth > 768) {
+        window.scrollTo({
+            top: window.innerHeight * 0.75,
+            behavior: "smooth"
+        });
+    }
 }
 
 /* ============================================================
@@ -314,6 +356,44 @@ function sendMessage() {
     }
 }
 
+let chatActive = false;
+
+let chatRef = null; // 🔥 simpan reference
+
+function enableChatListener() {
+    if (!database || chatActive) return;
+
+    chatActive = true;
+
+    const container = document.getElementById('chat-container');
+    if (!container) return;
+
+    chatRef = database.ref('messages').limitToLast(20);
+
+    chatRef.on('child_added', (snapshot) => {
+        const data = snapshot.val();
+
+        const msgDiv = document.createElement('div');
+        msgDiv.className = "chat-msg";
+
+        // ✅ aman dari HTML injection
+        const text = document.createElement('span');
+        text.textContent = data.text;
+
+        msgDiv.appendChild(text);
+
+        // ✅ pakai fragment biar ringan
+        const frag = document.createDocumentFragment();
+        frag.appendChild(msgDiv);
+        container.appendChild(frag);
+
+        // ✅ auto scroll halus
+        requestAnimationFrame(() => {
+            container.scrollTop = container.scrollHeight;
+        });
+    });
+}
+
 // Mendengarkan pesan dari database
 if(database) {
     database.ref('messages').on('child_added', (snapshot) => {
@@ -339,7 +419,9 @@ if(database) {
             <span>${data.text}</span>
         `;
         
-        container.appendChild(msgDiv);
+        const frag = document.createDocumentFragment();
+        frag.appendChild(msgDiv);
+        container.appendChild(frag);
 
         requestAnimationFrame(() => {
             container.scrollTop = container.scrollHeight;
@@ -384,13 +466,8 @@ document.addEventListener("touchend", e => {
     let endX = e.changedTouches[0].clientX;
 
     if (startX > endX + 50) {
-        mobileSidebar.classList.add("active");
-        menuBtn.classList.add("active");
-    }
-
-    if (startX < endX - 50) {
-        mobileSidebar.classList.remove("active");
-        menuBtn.classList.remove("active");
+        let mobileSidebar = document.getElementById("mobileSidebar");
+        let menuBtn = document.getElementById("menuBtn")
     }
 });
 
