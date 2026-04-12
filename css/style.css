@@ -1291,28 +1291,7 @@
         word-break: break-word;
         }
 
-        /* Gabungkan style yang sama */
-.kuantitas,
-.kualitas {
-    background: var(--border-glass);
-    padding: 20px;
-    border-radius: 20px;
-}
 
-/* Heading */
-.kuantitas-h4,
-.kualitas-h4 {
-    font-family: var(--font-display);
-    color: var(--marigold);
-    font-size: 1.5rem;
-}
-
-/* Paragraph */
-.kuantitas-p,
-.kualitas-p {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
 
     .kuantitas, .kualitas {
         padding: 12px;
@@ -1449,12 +1428,24 @@
         }
     
         .philosophy-item {
-            flex-direction: column !important;
-            padding: 10px !important;
+            flex-direction: column !important; /* Tetap vertikal */
+            align-items: flex-start;
+            text-align: left;
+            width: 100%;
         }
     
-        .philosophy-item img {
-            width: 100px !important;
+        /* Item ganjil (kiri) */
+        .philosophy-item:nth-child(odd) {
+            padding-right: 20%;
+        }
+    
+        /* Item genap (kanan) */
+        .philosophy-item:nth-child(even) {
+            padding-left: 20%;
+        }
+    
+        .philosophy-text {
+            text-align: left; /* Biar konsisten */
         }
     
         .cursor-dot, .cursor-ring {
@@ -1495,4 +1486,3 @@
             margin-top: 10px;
             text-align: left right;
           }
-      }
