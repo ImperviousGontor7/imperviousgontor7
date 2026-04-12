@@ -231,19 +231,6 @@
     opacity: 0;
 }
 
-.subheader-stack {
-    position: relative;
-    z-index: 10;
-    max-width: 1200px;
-    padding: 0 20px;
-}
-
-.subheader-img {
-    width: 300px;
-    margin-bottom: 20px;
-    animation: fadeUp 1s forwards 1s;
-}
-
 .maskot-stack {
     position: relative;
     z-index: 10;
@@ -377,320 +364,48 @@
         .nav-menu a.active { color: #fff; } /* Tampilan menu saat aktif */
         .nav-menu a.active::after { content: ''; position: absolute; inset: 0; background: var(--marigold); border-radius: 40px; z-index: -1; box-shadow: 0 5px 15px rgba(128,0,0,0.3); } /* Latar belakang item aktif */
         
-        .theme-btn { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--antiquewhite); transition: var(--transition-fast); } /* Tombol pengganti tema */
-        .theme-btn:hover { background: var(--marigold); color: #fff; transform: rotate(15deg); } /* Efek putar saat hover tombol tema */
+        .theme-btn { width: 35px; height: 35px; border-radius: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--antiquewhite); transition: var(--transition-fast); margin-top: auto;} /* Tombol pengganti tema */
+        .theme-btn:hover { background: var(--marigold); color: #fff; } /* Efek putar saat hover tombol tema */
+        /* ICON */
+        .theme-indicator svg {
+            width: 30px;
+            height: auto;
+            stroke: var(--text-main);  /* 🔥 ikut theme */
+            fill: none;
+            opacity: 0.8;
+            transition: 0.3s;
+            margin-bottom: 7.5px; /* biar nempel dikit ke logo */
+        }
+
+        /* Hover biar hidup */
+        .theme-btn:hover .theme-indicator svg {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        /* LIGHT MODE (default) */
+        .icon-sun {
+            fill: #f4b400; /* warna matahari */
+            opacity: 1;
+        }
+
+        .icon-moon {
+            opacity: 0;
+        }
+
+/* DARK MODE */
+[data-theme="dark"] .icon-sun {
+    opacity: 0;
+}
+
+[data-theme="dark"] .icon-moon {
+    fill: #ffffff; /* warna bulan */
+    opacity: 1;
+}
 
         .mobile-sidebar a {
             display: none;
         }
-    /* ========================================
-        MOBILE MODE
-    ======================================== */
-    @media (max-width: 500px) {
-
-    /* ===== NAVBAR MOBILE ===== */
-    nav {
-        height: auto;        /* penting */
-        padding: 8px 0;
-        z-index: 999;
-    }
-
-    .nav-inner {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        position: relative;
-        margin: 0 5px;
-        padding: 0 10px;
-        gap: 0;
-    }
-      
-    .search {
-        order: 3;
-        display: flex;
-        align-items: center;
-        justify-content: right;
-        width: 50px;
-        height: 50px;
-        cursor: pointer;
-        color: var(--text-main);
-        margin-left: auto !important;
-    }
-
-    .search svg {
-        opacity: 0.8;
-        transition: 0.2s;
-    }
-      
-    .search:hover svg {
-        transform: scale(1.1);
-        opacity: 0.7;
-    }
     
-    .menu-btn { 
-        order: 4; 
-        display: block;
-        margin-left: auto;
-    }
-      
-    .search, .menu-btn {
-        margin-left: 0;
-        padding: 0;
-    }
-    
-      /* sembunyikan navbar PC */
-    .nav-menu {
-        display: none;
-    }
-
-    .nav-brand {
-        order: 2;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 2;
-    }
-
-    .nav-brand img {
-        height: 40px;        /* kecilkan logo */
-    }
-
-    .theme-btn {
-        width: 35px;
-        height: 35px;
-        order: 1;
-    }
-
-    .c-box {
-        padding: 15px;
-        margin: 0 auto;
-        width: 100%;
-        max-width: 800px; /* WAJIB kalau mau ketengah */
-      }
-    
-      .c-headline {
-        font-size: 1.6rem;
-        line-height: 1.3;
-        letter-spacing: 0.5px;
-      }
-    
-      .c-subheadline {
-        font-size: 1.3rem;
-        line-height: 1.3;
-        letter-spacing: 0.5px;
-      }
-    
-      .c-body {
-        font-size: 1rem;
-        line-height: 1.6;
-      }
-    
-      .c-subbody {
-        font-size: 0.8rem;
-        line-height: 1.4;
-      }
-    
-      .c-quote {
-        font-size: 0.85rem;
-        line-height: 1.5;
-      }
-
-    .panel {
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        box-shadow: 0 0 25px #edddb4;
-    }
-
-    .panel-title {
-        font-size: 10px;
-    }
-
-    .panel h5 {
-        font-size: 10px;
-    }
-
-    .panel-section {
-        padding-bottom: 5px;
-        margin-bottom: 10px;
-    }
-
-    .panel-span {
-        font-size: 10px;
-    }
-
-    .row {
-        font-size: 10px;
-    }
-
-    .row span {
-    text-align: right;
-    word-break: break-word;
-    }
-
-
-    /* TAMPILKAN HAMBURGER */
-    .menu-btn {
-        display: block;
-        width: 30px;
-        cursor: pointer;
-    }
-
-    .menu-btn span {
-        display: block;
-        height: 3px;
-        background: var(--text-main);
-        margin: 6px 0;
-        transition: 0.3s;
-    }
-
-    /* ANIMASI JADI X */
-    .menu-btn.active span:nth-child(1) {
-        transform: rotate(45deg) translate(5px,5px);
-    }
-
-    .menu-btn.active span:nth-child(2) {
-        opacity: 0;
-    }
-
-    .menu-btn.active span:nth-child(3) {
-        transform: rotate(-45deg) translate(6px,-6px);
-    }
-
-    .master-wrapper {
-        grid-template-columns: 1fr;
-    }
-    .main-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    /* SIDEBAR HP */
-    .mobile-sidebar {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 50%;
-        height: 100vh;
-        backdrop-filter: blur(100px);
-        padding: 80px 20px;
-        transition: right 0.4s ease, opacity 0.3s;
-        z-index: 1101;
-    }
-
-    .mobile-sidebar.active {
-        right: 0;
-    }
-
-    .mobile-sidebar a {
-        display: block;
-        margin: 20px 0;
-        color: black;
-        font-size: 18px;
-    }
-
-    .bar {
-        height: 6px;
-        width: auto;
-    }
-
-    /* BACKGROUND GELAP */
-    .overlay {
-        position: fixed;
-        inset: 0;
-        background: #ffffff6b;
-        opacity: 0;
-        pointer-events: none;
-        transition: 0.3s;
-        z-index: 1100;
-    }
-
-    /* AKTIF */
-    .overlay.active {
-        opacity: 1;
-        pointer-events: all;
-    }
-
-    aside {
-        display: none;
-    }
-
-/* ===== KODE KAMU (TETAP) ===== */
-    .maskot-stack {
-        position: relative;
-        z-index: 11;
-        max-width: 120px;
-        padding: 0 5px;
-    }
-
-    .maskot-img {
-        width: 175px;
-        margin: 5px;
-        animation: fadeUp 1s forwards 1s;
-    }
-
-    .philosophy-item, .philosophy-item:nth-child(even) {
-        flex-direction: column !important;
-        text-align: center !important;
-        padding: 20px !important;
-    }
-
-    .philosophy-item:nth-child(even) .philosophy-text {
-        text-align: center;
-    }
-
-    .philosophy-item img {
-        width: 100px !important;
-    }
-
-    .cursor-dot, .cursor-ring {
-        display: none; /* matikan di HP */
-    }
-
-    .f-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas:
-          "brand history"
-          "alamat sosial";
-        gap: 10px;
-      }
-    
-      .f-brand {
-        grid-area: brand;
-      }
-
-      .f-brand h3 {
-        font-size: 1.85rem !important;
-      }
-    
-      .f-col:nth-child(2) {
-        grid-area: history;
-      }
-    
-      .f-col:nth-child(3) {
-        grid-area: sosial;
-      }
-    
-      .f-col:nth-child(4) {
-        grid-area: alamat;
-      }
-    
-      .f-bottom {
-        font-size: 0.6rem !important;
-        margin-top: 10px;
-        text-align: left right;
-      }
-  }
-
-          @media (max-width: 1024px) { /* Aturan layar tablet/laptop kecil */
-            .master-wrapper { grid-template-columns: 1fr; } /* Ubah grid utama jadi satu kolom */
-            aside { position: relative; top: 0; margin-bottom: 10px; } /* Hilangkan sticky pada sidebar */
-            .nav-menu { display: none; /* Mobile menu implementation needed */ } /* Sembunyikan menu navigasi desktop */
-            .f-grid { grid-template-columns: 1fr 1fr; } /* Footer menjadi dua kolom */
-        }
-
         /* ========================================
            VII. MASTER GRID & 3D SIDEBAR
            ======================================== */
@@ -701,9 +416,10 @@
         
         /* Default (LIGHT) */
         .logo-hologram-1 {
-            width: 50px;
+            width: 35px;
             height: auto;
             display: flex;
+            margin-top: 20px;
             content: url('Logo Hologram Coklat Khat Marhalah.png');
         }
         /* DARK MODE */
@@ -1035,7 +751,7 @@
         /* HP */
         #HP-bar {
             height: 100%;
-            width: 50%;
+            width: 100%;
             background: linear-gradient(90deg, orange, red);
             box-shadow: 0 0 10px red;
             transition: width 0.4s ease;
@@ -1045,7 +761,7 @@
         /* MP */
         #MP-bar {
             height: 100%;
-            width: 40%;
+            width: 100%;
             background: linear-gradient(90deg, deepskyblue, blue);
             box-shadow: 0 0 10px blue;
             transition: width 0.4s ease;
@@ -1257,3 +973,463 @@
     transform: translateY(0);
   }
 }
+
+/* ========================================
+        MOBILE MODE
+    ======================================== */
+        @media (max-width: 500px) {
+
+        #preloader {
+            z-index: 9999; /* pastikan tetap di atas */
+            }
+        
+        .shutter {
+            height: 50vh;
+            transition: transform 0.7s ease; 
+            /* dari 1.2s → lebih cepat biar gak lama di HP */
+            }
+        
+        .l-text {
+            font-size: 2rem; /* dari 3.5rem → diperkecil */
+            letter-spacing: 6px; /* dari 12px → lebih rapat */
+            text-align: center;
+            padding: 0 10px;
+            animation: pulseGlow 2.5s infinite; 
+            /* sedikit diperlambat biar smooth */
+            }
+        
+            /* Optional: kurangi glow biar ringan */
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { 
+                opacity: 1; 
+                text-shadow: 0 0 10px var(--antiquewhite); /* dari 25px → lebih ringan */
+            }
+            }
+            
+        .hero-bg-wrapper {
+            inset: 0;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(
+                        to bottom,
+                        rgba(0,0,0,0.5),
+                        rgba(0,0,0,0.95)
+                        ),
+                        url('Jami Emas.png') center/cover no-repeat;
+        
+            animation: cinematicZoom 30s infinite alternate linear; 
+            /* dari 15s → 25s (lebih smooth & ringan) */
+        
+            transform: scale(1.05); 
+            /* biar gak terlalu zoom ekstrem di HP */
+        
+            will-change: transform; 
+            /* optimasi GPU */
+        }
+
+        .header-stack {
+            padding: 0 15px;
+        }
+        
+        .header-img {
+            width: 100px;
+            margin-bottom: 15px;
+        }
+        
+        .h-grad {
+            font-size: 0.9rem;
+            letter-spacing: 6px; /* dari 18 → diperkecil */
+            margin-bottom: 15px;
+        }
+        
+        .h-pg {
+            font-size: clamp(2.2rem, 8vw, 4rem); /* lebih kecil */
+            line-height: 1; /* biar gak numpuk */
+            margin-bottom: 15px;
+        }
+        
+        .h-motto {
+            font-size: 1rem;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            opacity: 0.75;
+            filter: blur(0.25px);
+        }
+        
+        .h-cinema {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            margin-bottom: 25px;
+        }
+        
+        .y-grid {
+            gap: 10px;
+        }
+        
+        .y-box {
+            padding: 15px 20px;
+            min-width: 80px;
+            border-radius: 15px;
+            overflow: hidden;
+            backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(25px);
+        }
+        
+        .y-box b {
+            font-size: 2.2rem; /* dari 4rem → diperkecil */
+        }
+        
+        .y-box small {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+        }
+
+        nav {
+            height: auto;        /* penting */
+            padding: 8px 0;
+            z-index: 999;
+        }
+    
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            margin: 0 5px;
+            padding: 0 10px;
+            gap: 0;
+        }
+          
+        .search {
+            order: 3;
+            display: flex;
+            align-items: center;
+            justify-content: right;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            color: var(--text-main);
+            margin-left: auto !important;
+        }
+    
+        .search svg {
+            opacity: 0.8;
+            transition: 0.2s;
+        }
+          
+        .search:hover svg {
+            transform: scale(1.1);
+            opacity: 0.7;
+        }
+        
+        .menu-btn { 
+            order: 4; 
+            display: block;
+            margin-left: auto;
+        }
+          
+        .search, .menu-btn {
+            margin-left: 0;
+            padding: 0;
+        }
+        
+          /* sembunyikan navbar PC */
+        .nav-menu {
+            display: none;
+        }
+    
+        .nav-brand {
+            order: 2;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+    
+        .nav-brand img {
+            height: 40px;        /* kecilkan logo */
+        }
+    
+        .logo-hologram-1 {
+            width: 35px;              /* dari 50 → kecil */
+            margin-top: 0;
+        }
+
+        .theme-btn {
+            width: 35px;
+            height: 35px;
+            order: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* 🔥 ini kunci biar center */
+        }
+
+        /* ICON (matahari / bulan) */
+        .theme-indicator svg {
+            width: 30px;              /* dari 40 → lebih kecil */
+            stroke-width: 2.5;        /* biar tetap jelas walau kecil */
+            margin-bottom: 7.5px; /* biar nempel dikit ke logo */
+        }
+
+        /* Hover di HP biasanya useless → disable efek berlebihan */
+        .theme-btn:hover {
+            transform: none;
+            background: transparent;
+        }
+
+        .theme-btn:hover .theme-indicator svg {
+            transform: none;
+            opacity: 0.9;
+        }
+
+        /* Warna tetap konsisten */
+        .icon-sun {
+            fill: #f4b400;
+        }
+
+        .icon-moon {
+            fill: #ffffff;
+        }
+    
+        .c-box {
+            padding: 15px;
+            margin: 20px 0;
+            width: 100%;
+            max-width: 400px; /* WAJIB kalau mau ketengah */
+          }
+        
+          .c-headline {
+            font-size: 2rem;
+            line-height: 1.25;
+            letter-spacing: 0.5px;
+            word-break: break-word;
+          }
+        
+          .c-subheadline {
+            font-size: 1.75rem;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+            word-break: break-word;
+          }
+        
+          .c-body {
+            font-size: 1.5rem;
+            line-height: 1.1;
+            word-break: break-word;
+          }
+        
+          .c-subbody {
+            font-size: 0.75rem;
+            line-height: 1;
+            word-break: break-word;
+          }
+        
+          .c-quote {
+            font-size: 1rem;
+            line-height: 1.25;
+            word-break: break-word;
+          }
+
+          .h5 {
+            font-size: 0.5rem;
+            line-height: 1.25;
+            word-break: break-word;
+          }
+    
+        .panel {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 0 25px #edddb4;
+        }
+    
+        .panel-title {
+            font-size: 10px;
+        }
+    
+        .panel h5 {
+            font-size: 10px;
+        }
+    
+        .panel-section {
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+    
+        .panel-span {
+            font-size: 10px;
+        }
+    
+        .row {
+            font-size: 10px;
+        }
+    
+        .row span {
+        text-align: right;
+        word-break: break-word;
+        }
+    
+    
+        /* TAMPILKAN HAMBURGER */
+        .menu-btn {
+            display: block;
+            width: 30px;
+            cursor: pointer;
+        }
+    
+        .menu-btn span {
+            display: block;
+            height: 3px;
+            background: var(--text-main);
+            margin: 6px 0;
+            transition: 0.3s;
+        }
+    
+        /* ANIMASI JADI X */
+        .menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px,5px);
+        }
+    
+        .menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+    
+        .menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px,-6px);
+        }
+    
+        .master-wrapper {
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    
+        /* SIDEBAR HP */
+        .mobile-sidebar {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 50%;
+            height: 100vh;
+            backdrop-filter: blur(100px);
+            padding: 80px 20px;
+            transition: right 0.4s ease, opacity 0.3s;
+            z-index: 1101;
+        }
+    
+        .mobile-sidebar.active {
+            right: 0;
+        }
+    
+        .mobile-sidebar a {
+            display: block;
+            margin: 20px 0;
+            color: black;
+            font-size: 18px;
+        }
+    
+        .bar {
+            height: 6px;
+            width: auto;
+        }
+    
+        /* BACKGROUND GELAP */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: #ffffff6b;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+            z-index: 1100;
+        }
+    
+        /* AKTIF */
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+    
+        aside {
+            display: none;
+        }
+    
+    /* ===== KODE KAMU (TETAP) ===== */
+        .rois_quotes {
+            font-family: var(--font-arabic-2);
+            direction: rtl;
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+    
+        .maskot-stack {
+            position: relative;
+            z-index: 11;
+            max-width: 150px;
+            padding: 0 5px;
+        }
+    
+        .maskot-img {
+            width: 150px;
+            margin: 5px;
+            animation: fadeUp 1s forwards 1s;
+        }
+    
+        .philosophy-item {
+            flex-direction: column !important;
+            padding: 10px !important;
+        }
+    
+        .philosophy-item img {
+            width: 100px !important;
+        }
+    
+        .cursor-dot, .cursor-ring {
+            display: none; /* matikan di HP */
+        }
+    
+        .f-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas:
+              "brand history"
+              "alamat sosial";
+            gap: 20px;
+          }
+        
+          .f-brand {
+            grid-area: brand;
+          }
+    
+          .f-brand h3 {
+            font-size: 1.85rem !important;
+          }
+        
+          .f-col:nth-child(2) {
+            grid-area: history;
+          }
+        
+          .f-col:nth-child(3) {
+            grid-area: sosial;
+          }
+        
+          .f-col:nth-child(4) {
+            grid-area: alamat;
+          }
+        
+          .f-bottom {
+            font-size: 0.6rem !important;
+            margin-top: 10px;
+            text-align: left right;
+          }
+      }
