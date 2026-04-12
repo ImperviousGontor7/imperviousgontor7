@@ -1,4 +1,4 @@
-/* ============================================================/* ============================================================
+/* ============================================================
    I. KONSTANTA & DATA (DATES)
    ============================================================ */
    const DATES = {
@@ -22,8 +22,32 @@
     initContextMenu();
 
     setTimeout(() => {
-            smoothScrollTo(window.innerHeight * 0.75, 1000);
-    }, 3000);
+        document.body.classList.add('loaded');
+      
+        // ✅ Paksa mulai dari paling atas
+        window.scrollTo(0, 0);
+      
+        // ⏱️ Delay 2.5 detik setelah shutter buka
+        setTimeout(() => {
+      
+          let scrollTarget;
+      
+          if (window.innerWidth <= 500) {
+            scrollTarget = window.innerHeight * 0.9;
+          } else if (window.innerWidth <= 768) {
+            scrollTarget = window.innerHeight * 0.8;
+          } else {
+            scrollTarget = window.innerHeight * 0.75;
+          }
+      
+          window.scrollTo({
+            top: scrollTarget,
+            behavior: "smooth"
+          });
+      
+        }, 2000);
+      
+      }, 1500);
 }
 
 /* ============================================================
@@ -375,10 +399,10 @@ document.addEventListener("touchend", e => {
    ============================================================ */
 
 const player = {
-    HP: 100,
-    maxHP: 100,
-    MP: 100,
-    maxMP: 100,
+    HP: 20262027,
+    maxHP: 20262027,
+    MP: 51006101,
+    maxMP: 51006101,
 
     stats: {
     // ⚔️ BASIC STATS
