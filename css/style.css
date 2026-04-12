@@ -666,7 +666,7 @@
             }
         }
 
-        .reveal-scroll { opacity: 0; transform: translateY(30px); transition: all 1s var(--bezier-smooth); } /* Gaya dasar elemen reveal scroll */
+        .reveal-scroll { opacity: 1; transform: translateY(30px); transition: all 1s var(--bezier-smooth); } /* Gaya dasar elemen reveal scroll */
         .reveal-scroll.is-visible { opacity: 1; transform: translateY(0); } /* Tampilan saat elemen terlihat di layar */
 
         /* ===== PANEL GAME STYLE ===== */
@@ -974,7 +974,7 @@
   }
 }
 
-/* ========================================
+    /* ========================================
         MOBILE MODE
     ======================================== */
         @media (max-width: 500px) {
@@ -1045,7 +1045,7 @@
         }
         
         .h-pg {
-            font-size: clamp(2.2rem, 8vw, 4rem); /* lebih kecil */
+            font-size: clamp(2rem, 8vw, 4rem); /* lebih kecil */
             line-height: 1; /* biar gak numpuk */
             margin-bottom: 15px;
         }
@@ -1078,7 +1078,7 @@
         }
         
         .y-box b {
-            font-size: 2.2rem; /* dari 4rem → diperkecil */
+            font-size: 2rem; /* dari 4rem → diperkecil */
         }
         
         .y-box small {
@@ -1196,9 +1196,10 @@
     
         .c-box {
             padding: 15px;
-            margin: 20px 0;
-            width: 100%;
-            max-width: 400px; /* WAJIB kalau mau ketengah */
+            margin: 20px auto;
+            width: 80%;
+            max-width: 360px; /* WAJIB kalau mau ketengah */
+            box-sizing: border-box;
           }
         
           .c-headline {
@@ -1231,6 +1232,7 @@
             font-size: 1rem;
             line-height: 1.25;
             word-break: break-word;
+            opacity: 7.5;
           }
 
           .h5 {
