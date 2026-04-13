@@ -1,4 +1,4 @@
-/* ============================================================
+/* ============================================================/* ============================================================
    I. KONSTANTA & DATA (DATES)
    ============================================================ */
    const DATES = {
@@ -90,17 +90,21 @@ function renderDOM(id, val) {
     const target = document.getElementById('view-' + id);
     const current = document.querySelector('.view-pane.active');
 
-    if (!target) return; // 🔥 penting
+    if (!target) return;
 
+    // reset active menu
     document.querySelectorAll('.nav-menu a')
         .forEach(a => a.classList.remove('active'));
 
     btn.classList.add('active');
 
-    if (current && current !== target) {
+    // hapus active lama (kalau ada)
+    if (current) {
         current.classList.remove('active');
-        target.classList.add('active');
     }
+
+    // tampilkan target
+    target.classList.add('active');
 }
 
 // ===== MOBILE MENU =====
