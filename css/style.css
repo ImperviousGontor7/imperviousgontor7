@@ -422,6 +422,8 @@
             font-size: 0.9rem;
             color: var(--text-muted);
         }
+
+        
     
         /* ========================================
            VII. MASTER GRID & 3D SIDEBAR
@@ -663,6 +665,13 @@
 }
 .philosophy-item:nth-child(even) .philosophy-text { /* Teks item genap */
     text-align: right; /* Rata kanan teks */
+}
+
+.philosophy-item:nth-child(odd) { /* Untuk item bernomor genap */
+    flex-direction: row !important; /* Balik urutan elemen */
+}
+.philosophy-item:nth-child(odd) .philosophy-text { /* Teks item genap */
+    text-align: left; /* Rata kanan teks */
 }
 
        /* ========================================
@@ -1306,7 +1315,6 @@
         font-size: 0.8rem;
         line-height: 1.4;
     }
-}
     
         /* TAMPILKAN HAMBURGER */
         .menu-btn {
@@ -1486,3 +1494,4 @@
             margin-top: 10px;
             text-align: left right;
           }
+        }
