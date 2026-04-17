@@ -3,8 +3,8 @@
    ============================================================ */
    const DATES = {
     yudisium: new Date("February 19, 2027 07:00:00").getTime(),
-    ka: new Date("April 19, 2026 07:00:00").getTime(),
-    pg: new Date("May 3, 2026 20:00:00").getTime()
+    ka: new Date("May 14, 2026 07:00:00").getTime(),
+    pg: new Date("May 2, 2026 20:00:00").getTime()
 };
 
 /* ============================================================
@@ -250,6 +250,79 @@ function initInteractiveCanvas() {
         }
     });
 }
+
+const images = document.querySelectorAll(".memories-grid img");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+const closeBtn = document.querySelector(".close");
+
+images.forEach(img => {
+    img.addEventListener("click", () => {
+        lightbox.style.display = "flex";
+        lightboxImg.src = img.src;
+    });
+});
+
+closeBtn.onclick = () => {
+    lightbox.style.display = "none";
+};
+
+lightbox.onclick = (e) => {
+    if (e.target !== lightboxImg) {
+        lightbox.style.display = "none";
+    }
+};
+
+const likeBtn = document.getElementById("likeBtn");
+const likeCount = document.getElementById("likeCount");
+
+let currentImage = "";
+
+likeBtn.onclick = () => {
+    db.ref("likes/" + currentImage).transaction((count) => {
+        return (count || 0) + 1;
+    });
+};
+
+db.ref("likes/" + currentImage).on("value", (snap) => {
+    likeCount.innerText = snap.val() || 0;
+});
+
+function sendComment() {
+    const input = document.getElementById("commentInput");
+    const text = input.value;
+
+    if (!text) return;
+
+    db.ref("comments/" + currentImage).push({
+        text: text,
+        time: Date.now()
+    });
+
+    input.value = "";
+}
+
+function loadComments() {
+    const container = document.getElementById("comments");
+    container.innerHTML = "";
+
+    db.ref("comments/" + currentImage).on("child_added", (snap) => {
+        const data = snap.val();
+        const div = document.createElement("div");
+        div.innerText = data.text;
+        container.appendChild(div);
+    });
+}
+
+images.forEach(img => {
+    img.addEventListener("click", () => {
+        lightbox.style.display = "flex";
+        lightboxImg.src = img.src;
+
+        currentImage = img.src; // ID unik
+        loadComments();
+    });
+});
 
 /* ============================================================
    VI. UI EXTRAS (Cursor, Tilt, Context Menu, Scroll)
