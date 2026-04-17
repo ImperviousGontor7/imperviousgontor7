@@ -1,4 +1,4 @@
-/* ============================================================/* ============================================================
+/* ============================================================
    I. KONSTANTA & DATA (DATES)
    ============================================================ */
    const DATES = {
@@ -354,17 +354,24 @@ if (typeof firebase !== 'undefined' && !firebase.apps.length) {
 
 const database = (typeof firebase !== 'undefined') ? firebase.database() : null;
 
+let replyTo = null; // global
+
 function sendMessage() {
     const input = document.getElementById('user-input');
+
     if (input && input.value.trim() !== "" && database) {
-        // Simpan ke Database Firebase
         const newMessageRef = database.ref('messages').push();
+
         newMessageRef.set({
             text: input.value,
             timestamp: Date.now(),
-            sender: "User-" + Math.floor(Math.random() * 1000) 
+            sender: "User-" + Math.floor(Math.random() * 1000),
+            parent: replyTo // 🔥 ini kunci
         });
+
         input.value = "";
+        replyTo = null; // reset
+        input.placeholder = "Tulis komentar...";
     }
 }
 
@@ -380,28 +387,61 @@ function enableChatListener() {
     const container = document.getElementById('chat-container');
     if (!container) return;
 
-    chatRef = database.ref('messages').limitToLast(20);
+    chatRef = database.ref('messages');
 
-    chatRef.on('child_added', (snapshot) => {
-        const data = snapshot.val();
+chatRef.on('child_added', (snapshot) => {
+    const data = snapshot.val();
+    const id = snapshot.key;
 
-        const msgDiv = document.createElement('div');
-        msgDiv.className = "chat-msg";
+    const msgDiv = document.createElement('div');
+    msgDiv.className = "chat-msg";
+    msgDiv.setAttribute("data-id", id);
 
-        // ✅ aman dari HTML injection
-        const text = document.createElement('span');
-        text.textContent = data.text;
+    const text = document.createElement('span');
+    text.textContent = data.sender + ": " + data.text;
 
-        msgDiv.appendChild(text);
+    const time = document.createElement('small');
+    time.textContent = new Date(data.timestamp).toLocaleTimeString();
 
-        // ✅ pakai fragment biar ringan
-        const frag = document.createDocumentFragment();
-        frag.appendChild(msgDiv);
-        container.appendChild(frag);
+    msgDiv.appendChild(text);
+    msgDiv.appendChild(document.createElement('br'));
+    msgDiv.appendChild(time);
 
-        // ✅ auto scroll halus
-        requestAnimationFrame(() => {
-            container.scrollTop = container.scrollHeight;
+    // 🔥 tombol reply (CUKUP SEKALI)
+    const replyBtn = document.createElement('button');
+    replyBtn.textContent = "Balas";
+    replyBtn.onclick = () => {
+        replyTo = id;
+        document.getElementById('user-input').focus();
+    };
+
+    msgDiv.appendChild(replyBtn);
+
+    // 🔥 container reply
+    const replies = document.createElement('div');
+    replies.className = "replies";
+    msgDiv.appendChild(replies);
+
+    // 🔥 cek parent
+    if (data.parent) {
+    const parentDiv = document.querySelector(
+        `[data-id="${data.parent}"] .replies`
+    );
+
+    if (parentDiv) {
+        parentDiv.appendChild(msgDiv);
+    } else {
+        // fallback: taruh sementara di bawah
+        container.appendChild(msgDiv);
+    }
+    } else {
+        container.appendChild(msgDiv);
+    }
+
+    // auto scroll
+    requestAnimationFrame(() => {
+        container.scrollTop = container.scrollHeight;
+
         });
     });
 }
