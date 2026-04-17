@@ -65,8 +65,8 @@
             --bg-master: url('Background Marmer 2.png');
             --bg-surface: #EAD3B1;
             --bg-card-light: #f2e3d0;
-            --text-main: #e3a419;
-            --text-muted: #e3a419;
+            --text-main: #512f23;
+            --text-muted: #512f23;
             --border-glass: #b59971;
             --shadow-lux: 0 30px 80px #0000000d;
         }
@@ -518,14 +518,12 @@
         .memories-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
-            gap: 2px;
-            margin: 20px auto;
+            margin: auto;
         }
         
         .memories-item {
             aspect-ratio: 1/1;
             overflow: hidden;
-            border-radius: 0;
             cursor: pointer;
             background: #eee;
             position: relative;
@@ -554,6 +552,74 @@
         .pagination { margin-top: 30px; display: flex; gap: 10px; justify-content: center; }
         .btn { padding: 10px 20px; border: none; background: var(--primary); color: white; border-radius: 5px; cursor: pointer; }
         .btn-small { padding: 5px 12px; font-size: 12px; }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .lightbox-img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            transition: 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .lightbox-content {
+            display: flex;
+            gap: 20px;
+            max-width: 90%;
+        }
+        
+        .ig-panel {
+            width: 250px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #comments {
+            flex: 1;
+            overflow-y: auto;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+        
+        .ig-input {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .ig-input input {
+            flex: 1;
+            padding: 5px;
+        }
+        
+        .ig-input button {
+            padding: 5px 10px;
+        }
    
         /* ========================================
            IX: PHILOSOPHY SECTION (SISTEM TEKUK LOGO)
@@ -821,9 +887,9 @@
            XI. CINEMATIC FOOTER
            ======================================== */
         footer { background: var(--bg-surface); padding: 100px 0 50px; border-top: 1px solid var(--border-glass); margin-top: 50px; position: relative; } /* Bagian kaki halaman sinematik */
-        .f-container { max-width: 1400px; margin: 0 auto; padding: 0 50px; } /* Kontainer isi footer */
+        .f-container { max-width: 1600px; margin: 0 auto; padding: 0 50px; } /* Kontainer isi footer */
         .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 50px; margin-bottom: 60px; } /* Grid kolom footer */
-        .f-brand h3 { font-family: var(--font-display); font-size: 2.5rem; color: var(--text-main); margin-bottom: 20px; } /* Nama brand di footer */
+        .f-brand h3 { font-family: var(--font-display); font-size: 3rem; color: var(--text-main); margin-bottom: 20px; } /* Nama brand di footer */
         .f-col h5 { font-family: var(--font-lato); font-weight: 900; text-transform: uppercase; font-size: 1rem; letter-spacing: 2px; margin-bottom: 25px; color: var(--text-main); } /* Judul kolom footer */
         .f-col a { display: block; margin-bottom: 12px; font-size: 1rem; color: var(--text-muted); position: relative; width: fit-content; transition: var(--transition-fast); } /* Tautan dalam kolom footer */
         .f-col a:hover { color: var(--text-main); transform: translateX(5px); } /* Efek hover tautan footer */
@@ -1103,7 +1169,7 @@
         
         .y-box {
             padding: 15px 20px;
-            min-width: 80px;
+            min-width: 50px;
             border-radius: 15px;
             overflow: hidden;
             backdrop-filter: blur(50px);
@@ -1229,7 +1295,7 @@
     
         .c-box {
             padding: 15px;
-            margin: 20px auto;
+            margin: 15px auto;
             width: 100%;
             max-width: 450px; /* WAJIB kalau mau ketengah */
             box-sizing: border-box;
@@ -1474,13 +1540,20 @@
         }
 
         .memories-grid {
-        grid-template-columns: repeat(3, 1fr); /* 🔥 dari 6 → 3 */
-        gap: 2px;
-        margin: 10px auto; /* lebih kecil biar rapat */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 🔥 dari 6 → 3 */
+            gap: 1px;
+            margin: auto; /* lebih kecil biar rapat */
+        }
+
+        .memories-grid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* biar gak gepeng */
+            border-radius: 0 !important;
         }
 
         .memories-item {
-            border-radius: 0;
             transition: none; /* 🔥 biar ringan di HP */
         }
 
@@ -1514,13 +1587,72 @@
             padding: 4px 10px;
             font-size: 10px;
         }
+
+        .lightbox {
+            padding: 10px; /* biar gak nempel ke pinggir */
+        }
+    
+        .lightbox-img {
+            max-width: 100%;   /* full lebar HP */
+            max-height: 80%;   /* kasih ruang atas bawah */
+            border-radius: 8px;
+            transition: 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    
+        .close {
+            top: 15px;
+            right: 15px;
+            font-size: 26px; /* sedikit lebih kecil */
+        }
+
+        .lightbox-content {
+            flex-direction: column; /* dari samping → jadi atas-bawah */
+            gap: 10px;
+            max-width: 100%;
+            height: 100%;
+        }
+    
+        .ig-panel {
+            width: 100%; /* full lebar */
+            max-height: 40%; /* biar gak makan layar */
+            font-size: 12px;
+            background: rgba(0,0,0,0.8);
+            padding: 10px;
+            border-radius: 10px;
+        }
+    
+        #comments {
+            max-height: 150px; /* scroll area komentar */
+            overflow-y: auto;
+        }
+    
+        .ig-input {
+            gap: 5px;
+        }
+    
+        .ig-input input {
+            font-size: 12px;
+            padding: 6px;
+        }
+    
+        .ig-input button {
+            padding: 6px 10px;
+            font-size: 12px;
+        }
     
         footer {
-            padding: clamp(40px, 8vw, 60px) 0;
+            padding: 10px 0;
         }
 
         .f-container {
-            padding: 0 clamp(10px, 4vw, 20px);
+            max-width: 450px;
+            margin-top: 10px;
+            padding: 0 clamp(2px, 1vw, 5px);
         }
 
         .f-grid {
@@ -1529,7 +1661,9 @@
             grid-template-areas:
               "brand history"
               "alamat sosial";
-            gap: 20px;
+              gap: 20px;
+            margin-bottom: 4px;
+            padding-bottom: 5px;
           }
         
           .f-brand {
@@ -1537,24 +1671,37 @@
           }
     
           .f-brand h3 {
-            font-size: 1.85rem !important;
+            font-size: 1.5rem;
           }
         
           .f-col:nth-child(2) {
             grid-area: history;
           }
+
+          .f-col:nth-child(2) h5 {
+            font-size: 1rem;
+          }
         
           .f-col:nth-child(3) {
             grid-area: sosial;
+          }
+
+          .f-col:nth-child(3) h5 {
+            font-size: 1rem;
           }
         
           .f-col:nth-child(4) {
             grid-area: alamat;
           }
         
+          .f-col:nth-child(4) h5 {
+            font-size: 1rem;
+          }
+
           .f-bottom {
             font-size: 0.6rem !important;
-            margin-top: 10px;
+            padding-top: 10px;
+            margin-bottom: 10px;
             text-align: left right;
           }
         }
