@@ -194,8 +194,6 @@
     height: 100%;
     background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.95)),
                 url('Jami Emas.png') center/cover no-repeat;
-    animation: cinematicZoom 15s infinite alternate linear;
-    transform-origin: center center; /* penting agar zoom tetap center */
 }
 
 /* Kanvas partikel melayang */
@@ -526,6 +524,7 @@
             height: 100%;
             object-fit: cover; /* biar gak gepeng */
             z-index: 999;
+            border-radius: 0 !important;
         }
         
         .memories-item {
@@ -1083,6 +1082,126 @@
     /* ========================================
         MOBILE MODE
     ======================================== */
+    /* ========================================
+    TABLET & MOBILE BESAR (≤768px)
+    TANPA UBAH FONT SIZE
+======================================== */
+@media (max-width: 768px) {
+
+    /* ===== HERO ===== */
+    .hero-bg {
+        transform: scale(1.08);
+        animation: cinematicZoom 25s infinite alternate linear;
+    }
+
+    .header-stack {
+        padding: 0 25px;
+    }
+
+    /* ===== COUNTER BOX ===== */
+    .y-grid {
+        gap: 15px;
+    }
+
+    .y-box {
+        padding: 20px 25px;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+        padding: 10px 0;
+    }
+
+    .nav-inner {
+        margin: 0 10px;
+        padding: 0 15px;
+    }
+
+    .nav-brand img {
+        height: 50px;
+    }
+
+    .logo-hologram-1 {
+        width: 45px;
+    }
+
+    /* ===== CONTENT BOX ===== */
+    .c-box {
+        max-width: 600px;
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    /* ===== PANEL ===== */
+    .panel {
+        box-shadow: 0 0 20px #edddb4;
+    }
+
+    /* ===== GRID LAYOUT ===== */
+    .master-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .main-wrapper {
+        align-items: center;
+    }
+
+    /* ===== MEMORIES ===== */
+    .memories-grid {
+        grid-template-columns: repeat(4, 1fr); /* tengah */
+        gap: 2px;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .mobile-sidebar {
+        width: 40%;
+        padding: 80px 25px;
+    }
+
+    /* ===== PHILOSOPHY ===== */
+    .philosophy-item:nth-child(odd) {
+        padding-right: 15%;
+    }
+
+    .philosophy-item:nth-child(even) {
+        padding-left: 15%;
+    }
+
+    /* ===== MASKOT ===== */
+    .maskot-img {
+        width: 180px;
+    }
+
+    /* ===== LIGHTBOX ===== */
+    .lightbox {
+        padding: 15px;
+    }
+
+    .lightbox-img {
+        max-width: 100%;
+        max-height: 85%;
+    }
+
+    .ig-panel {
+        max-height: 45%;
+        padding: 12px;
+    }
+
+    /* ===== FOOTER ===== */
+    .f-container {
+        max-width: 600px;
+        padding: 0 10px;
+    }
+
+    .f-grid {
+        gap: 25px;
+    }
+
+    .f-bottom {
+        padding-top: 12px;
+    }
+}
+    
     @media (max-width: 500px) {
 
         #preloader {
@@ -1125,14 +1244,6 @@
                         ),
                         url('Jami Emas.png') center/cover no-repeat;
         
-            animation: cinematicZoom 30s infinite alternate linear; 
-            /* dari 15s → 25s (lebih smooth & ringan) */
-        
-            transform: scale(1.05); 
-            /* biar gak terlalu zoom ekstrem di HP */
-        
-            will-change: transform; 
-            /* optimasi GPU */
         }
 
         .header-stack {
@@ -1175,8 +1286,8 @@
         }
         
         .y-box {
-            padding: 15px 20px;
-            min-width: 50px;
+            padding: 15px 15px;
+            min-width: 45px;
             border-radius: 15px;
             overflow: hidden;
             backdrop-filter: blur(50px);
@@ -1184,7 +1295,7 @@
         }
         
         .y-box b {
-            font-size: 1.75rem; /* dari 4rem → diperkecil */
+            font-size: 1.5rem; /* dari 4rem → diperkecil */
         }
         
         .y-box small {
@@ -1301,10 +1412,10 @@
         }
     
         .c-box {
-            padding: 15px;
+            padding: 10px;
             margin: 15px auto;
             width: 100%;
-            max-width: 450px; /* WAJIB kalau mau ketengah */
+            max-width: 480px; /* WAJIB kalau mau ketengah */
             box-sizing: border-box;
           }
         
@@ -1425,7 +1536,7 @@
         }
     
         .master-wrapper {
-            margin: 20px auto;
+            margin: 15px auto;
             display: grid;
             grid-template-columns: 1fr;
         }
@@ -1505,12 +1616,12 @@
         .maskot-stack {
             position: relative;
             z-index: 11;
-            max-width: 150px;
+            max-width: 170px;
             padding: 0 5px;
         }
     
         .maskot-img {
-            width: 150px;
+            width: 120px;
             margin: 5px;
             animation: fadeUp 1s forwards 1s;
         }
@@ -1557,7 +1668,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover; /* biar gak gepeng */
-            border-radius: 0 !important;
         }
 
         .memories-item {
