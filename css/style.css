@@ -426,7 +426,7 @@
         /* ========================================
            VII. MASTER GRID & 3D SIDEBAR
            ======================================== */
-        .master-wrapper { max-width: 2000px; margin: 80px auto; padding: 0 50px; display: grid; grid-template-columns: 450px 1fr; gap: 60px; } /* Tata letak grid utama halaman */
+        .master-wrapper { max-width: 2000px; margin: 80px auto; padding: 0 25px; display: grid; grid-template-columns: 450px 1fr; gap: 60px; } /* Tata letak grid utama halaman */
         
         aside { position: sticky; top: 120px; height: fit-content; perspective: 1200px; } /* Sidebar yang menempel saat scroll */
         .sidebar-card { --bg-card: #1e1e1e; border-radius: 20px; padding: 15px; border: 1px solid var(--border-glass); box-shadow: var(--shadow-lux); backdrop-filter: blur(10px); transform-style: preserve-3d; transition: transform 0.1s; } /* Kartu sidebar dengan efek 3D */
@@ -462,8 +462,9 @@
         ======================================== */
         .view-pane { display: none; } /* Sembunyikan semua panel konten secara default */
         .view-pane.active { display: block; animation: paneSlideUp 0.8s var(--bezier-smooth); } /* Tampilkan panel yang aktif */
-        
-        .c-box { --bg-card: #1e1e1e; padding: 30px; border-radius: 20px; border: 2px solid var(--border-glass); box-shadow: var(--shadow-lux); backdrop-filter: blur(10px); margin-bottom: 10px; -webkit-backdrop-filter: blur(25px);} /* Kotak pembungkus konten isi */
+        .panel-container { width: 50%; height: auto;}
+
+        .c-box { --bg-card: #1e1e1e; padding: 10px; border-radius: 20px; border: 2px solid var(--border-glass); box-shadow: var(--shadow-lux); backdrop-filter: blur(10px); margin-bottom: 10px; -webkit-backdrop-filter: blur(25px);} /* Kotak pembungkus konten isi */
         .c-headline { font-family: var(--font-display); font-size: 4rem; color: var(--text-main); line-height: 0.9; margin-bottom: 20px; } /* Judul besar di dalam konten */
         .c-subheadline { font-family: var(--font-display); font-size: 3rem; color: var(--text-main); line-height: 0.7; margin-bottom: 15px; } /* Judul besar di dalam konten */
         .c-body { font-family: var(--font-display); font-size: 2rem; color: var(--text-main); line-height: 0.5; margin-bottom: 10px; } /* Judul besar di dalam konten */
@@ -638,13 +639,10 @@
             cursor: pointer; /* Kursor menjadi telunjuk */
             outline: none; /* Hilangkan garis fokus */
         }
-        summary::-webkit-details-marker { /* Hilangkan marker untuk browser webkit */
-            display: none; /* Sembunyikan permanen */
-        }
 
 .img-reveal.philo {
     padding: 10px;
-    border: 2px solid var(--antiquewhite);
+    border: 1px solid var(--bg-surface);
     border-radius: 20px;
     background: var(--bg-surface);
 }
@@ -689,13 +687,18 @@
 
 /* --- Container & Item Filosofi (Memanjang Penuh) --- */
 
+details .c-box {
+    transform: none;
+    transition: none;
+  }
+
 .philosophy-container { /* Wadah daftar item filosofi */
-    width: 100% !important; /* Paksa lebar penuh */
-    display: flex !important; /* Paksa model flex */
-    flex-direction: column !important; /* Susun vertikal */
-    gap: 20px !important; /* Jarak antar item */
-    margin-top: 30px !important; /* Jarak atas kontainer */
-    padding: 0 !important; /* Reset padding */
+    width: 100% ; /* Paksa lebar penuh */
+    display: flex ; /* Paksa model flex */
+    flex-direction: column ; /* Susun vertikal */
+    gap: 12px ; /* Jarak antar item */
+    margin-top: 20px ; /* Jarak atas kontainer */
+    padding: 0 10px; /* Reset padding */
 }
 
 .philosophy-item {
@@ -975,15 +978,6 @@
     text-shadow: 0 0 8px rgba(255,255,255,0.7);
 }
 
-#skills, #equipment {
-    margin-top: 10px;
-}
-
-.skill, .equip {
-    margin-bottom: 5px;
-    font-size: 14px;
-}
-
 .stat-row {
     display: flex;
     justify-content: space-between;
@@ -1083,126 +1077,7 @@
     /* ========================================
         MOBILE MODE
     ======================================== */
-    /* ========================================
-    TABLET & MOBILE BESAR (≤768px)
-    TANPA UBAH FONT SIZE
-======================================== */
-@media (max-width: 768px) {
 
-    /* ===== HERO ===== */
-    .hero-bg {
-        transform: scale(1.08);
-        animation: cinematicZoom 25s infinite alternate linear;
-    }
-
-    .header-stack {
-        padding: 0 25px;
-    }
-
-    /* ===== COUNTER BOX ===== */
-    .y-grid {
-        gap: 15px;
-    }
-
-    .y-box {
-        padding: 20px 25px;
-    }
-
-    /* ===== NAVBAR ===== */
-    nav {
-        padding: 10px 0;
-    }
-
-    .nav-inner {
-        margin: 0 10px;
-        padding: 0 15px;
-    }
-
-    .nav-brand img {
-        height: 50px;
-    }
-
-    .logo-hologram-1 {
-        width: 45px;
-    }
-
-    /* ===== CONTENT BOX ===== */
-    .c-box {
-        max-width: 600px;
-        padding: 20px;
-        margin: 20px auto;
-    }
-
-    /* ===== PANEL ===== */
-    .panel {
-        box-shadow: 0 0 20px #edddb4;
-    }
-
-    /* ===== GRID LAYOUT ===== */
-    .master-wrapper {
-        grid-template-columns: 1fr;
-    }
-
-    .main-wrapper {
-        align-items: center;
-    }
-
-    /* ===== MEMORIES ===== */
-    .memories-grid {
-        grid-template-columns: repeat(4, 1fr); /* tengah */
-        gap: 2px;
-    }
-
-    /* ===== SIDEBAR ===== */
-    .mobile-sidebar {
-        width: 40%;
-        padding: 80px 25px;
-    }
-
-    /* ===== PHILOSOPHY ===== */
-    .philosophy-item:nth-child(odd) {
-        padding-right: 15%;
-    }
-
-    .philosophy-item:nth-child(even) {
-        padding-left: 15%;
-    }
-
-    /* ===== MASKOT ===== */
-    .maskot-img {
-        width: 180px;
-    }
-
-    /* ===== LIGHTBOX ===== */
-    .lightbox {
-        padding: 15px;
-    }
-
-    .lightbox-img {
-        max-width: 100%;
-        max-height: 85%;
-    }
-
-    .ig-panel {
-        max-height: 45%;
-        padding: 12px;
-    }
-
-    /* ===== FOOTER ===== */
-    .f-container {
-        max-width: 600px;
-        padding: 0 10px;
-    }
-
-    .f-grid {
-        gap: 25px;
-    }
-
-    .f-bottom {
-        padding-top: 12px;
-    }
-}
-    
     @media (max-width: 500px) {
 
         #preloader {
@@ -1414,9 +1289,8 @@
     
         .c-box {
             padding: 10px;
-            margin: 15px auto;
+            margin: 5px !important;
             width: 100%;
-            max-width: 480px; /* WAJIB kalau mau ketengah */
             box-sizing: border-box;
           }
         
@@ -1459,9 +1333,10 @@
             word-break: break-word;
           }
     
+        .panel-container { width: 100%; height: auto;}
+
         .panel {
-            width: 100%;
-            max-width: 100%;
+            width: 90%;
             box-sizing: border-box;
             box-shadow: 0 0 25px #edddb4;
         }
@@ -1484,7 +1359,7 @@
         }
     
         .row {
-            font-size: 10px;
+            font-size: 50%;
         }
     
         .row span {
@@ -1625,6 +1500,36 @@
             width: 120px;
             margin: 5px;
             animation: fadeUp 1s forwards 1s;
+        }
+
+        details .c-box {
+            transform: none;
+            transition: none;
+          }
+
+        .img-reveal.philo {
+            padding: 5px;
+            border: 2px solid var(--antiquewhite);
+            border-radius: 20px;
+            background: var(--bg-surface);
+            margin: auto;
+        }
+
+        .img-reveal.philo img {
+            max-width: 100px; /* sesuaikan sesuai layout */
+            width: 100px;       /* supaya responsif */
+            height: auto;
+            display: block;
+            
+        }
+
+        .philosophy-container { /* Wadah daftar item filosofi */
+            width: 100% !important; /* Paksa lebar penuh */
+            display: flex !important; /* Paksa model flex */
+            flex-direction: column !important; /* Susun vertikal */
+            gap: 20px !important; /* Jarak antar item */
+            margin-top: 30px !important; /* Jarak atas kontainer */
+            padding: 0 !important; /* Reset padding */
         }
     
         .philosophy-item {
